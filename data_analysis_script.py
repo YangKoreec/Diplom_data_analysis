@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
+apb_data = pd.read_csv('approbation_data.csv')
+
 def main():
-    apb_data = pd.read_csv('approbation_data.csv')
     apb_data.drop(columns=['В данном поле вы можете оставить свои замечания или пожелания для лабораторной работы по RC4.',
                            'В данном поле вы можете оставить свои замечания или пожелания для лабораторной работы по KASUMI.'],
                   inplace=True)
@@ -17,6 +18,7 @@ def main():
                              'Оценка сложности задания (KASUMI) / Насколько, по вашему мнению, задание было сложным (KASUMI)': 'task_difficulty_kasumi'},
                     inplace=True)
 
+def create_histplots():
     hist_data_rc4 = pd.DataFrame({'value': ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']})
     for name in ['theory_rc4', 'example_rc4', 'task_rc4', 'task_difficulty_rc4']:
         hist_data_rc4[name] = [apb_data.loc[apb_data[name] == i].loc[:, name].count() for i in range(1, 11)]
@@ -66,7 +68,9 @@ def main():
     fig_rc4_practice.savefig('RC4_Оценка_Сложности_Практики.png')
     fig_kasumi_practice.savefig('KASUMI_Оценка_Сложности_Практики.png')
 
+def data_mean():
     print(apb_data.mean().round(2))
 
 if __name__ == '__main__':
     main()
+    data_mean()
